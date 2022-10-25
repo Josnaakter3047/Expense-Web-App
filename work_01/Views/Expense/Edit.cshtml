@@ -1,0 +1,80 @@
+﻿@model work_01.Models.Expenditures
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="offset-3 col-md-12">
+    <div class="row">
+        <div class="col">
+            
+            <div class="card col-md-6 mt-3">
+                <div class="card-header">
+                    <h2 class="card-title">Update Expenses</h2>
+                </div>
+                <div class="card-body">
+                    <form id="frmCreate" asp-action="Edit" asp-controller="Expense"
+                          data-ajax="true"
+                          data-ajax-method="Post"
+                          data-ajax-mode="replace"
+                          data-ajax-update="#msg"
+                          data-ajax-success="Success">
+
+                        <div id="msg">
+
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-form-label col-md-3">Category</label>
+                            <div class="col-md-6">
+                                <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.categoryList,"Id","CategoryName"))" class="form-control">
+                                    <option value="0">--Select One--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-form-label col-md-3">Expense Date</label>
+                            <div class="col-md-6">
+                                @*<input asp-for="DateOfExpense" class="form-control" />*@
+                                @Html.EditorFor(model => model.DateOfExpense, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                            </div>
+                            <div class="col-md-3">
+                                <span asp-validation-for="DateOfExpense" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-form-label col-md-3">Total Amount</label>
+                            <div class="col-md-6">
+                                <input asp-for="TotalAmount" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row card-footer">
+                            <div class="offset-3 col-md-6">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                                <a asp-action="Index" asp-controller="Expense">Back to List</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/ajax/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        function Success() {
+            $("#frmCreate").trigger("reset");
+        }
+    </script>
+
+}
